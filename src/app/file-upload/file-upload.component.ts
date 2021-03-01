@@ -16,7 +16,7 @@ export class FileUploadComponent implements OnInit {
   public uploader:FileUploader = new FileUploader({
     isHTML5: true
   });
-  title: string = 'Angular File Upload';
+  title: string = 'File Upload';
   constructor(private fb: FormBuilder, private http: HttpClient ) { }
 
   uploadSubmit(){
