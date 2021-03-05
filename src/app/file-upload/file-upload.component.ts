@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {FileUploader} from "ng2-file-upload";
-import {Observable} from "rxjs";
-import {HttpClient} from "@angular/common/http";
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FileUploader} from 'ng2-file-upload';
+import {Observable} from 'rxjs';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-file-upload',
@@ -13,9 +13,10 @@ export class FileUploadComponent implements OnInit {
 
   uploadForm: FormGroup;
 
-  public uploader:FileUploader = new FileUploader({
+  public uploader: FileUploader = new FileUploader({
     isHTML5: true
   });
+
   title: string = 'File Upload';
   downloadLink = '';
   constructor(private fb: FormBuilder, private http: HttpClient ) { }
