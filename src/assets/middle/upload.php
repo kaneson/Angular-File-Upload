@@ -9,18 +9,23 @@ class MiddleClass {
     public $destination = '';
     public $file = '';
     public $baseFolder = '/home/soporteb/sac/';
+    public $baseFolderFile = 'uploads/';
     public $script = 'sac_replace_id.sh';
     public $param_one = ' -f ';
     public $param_two = ' -i ';
     public $param_three = ' -o ';
-    public $prefix = '_new.tgz';
+    public $prefix = '.tgz';
+    public $prefix_new = '_new.tgz';
     public $folderResults = ' ./files_result/';
 
     public function __construct() {
         $this->enableCORS();
         $this->setHeaders();
         $this->getParams();
-        $file = $this->uploadFile();
+    }
+
+    public function run() {
+        $this->file = $this->uploadFile();
         $this->execScript();
     }
 
@@ -37,10 +42,30 @@ class MiddleClass {
         return true;
     }
 
+    public function changeHeaders($path_file_result) {
+	    header("Cache-Control: public");
+	    header("Content-Description: File Transfer");
+	    header("Content-Disposition: attachment; filename=$path_file_result");
+	    header("Content-Type: application/zip");
+	    header("Content-Transfer-Encoding: binary");
+    }
+
     public function execScript() {
-    	// /home/soporteb/sac/sac_replace_id.sh -f FICHEIRO.tgz -i model_id_source -o model_id_destination
-        $output = shell_exec($this->baseFolder . $this->script . $this->param_one . $this->file . $this->param_two . $this->source . $this->param_three);
-        $cp = shell_exec('cp ' . $this->baseFolder . $this->file . $this->prefix . $this->folderResults . $this->baseFolder . $this->file . $this->prefix);
+    	$path_file_source = $this->baseFolder. $this->baseFolderFile . $this->file;
+    	$name_new_file = str_replace($this->prefix,'',$this->file) . $this->prefix_new;
+    	$path_file_result = $this->baseFolder. $this->baseFolderFile .$name_new_file;
+    	$path_download = ' ./uploads/' . $name_new_file;
+    	$command = 'sh ' . $this->baseFolder . $this->script . $this->param_one . $path_file_source . $this->param_two . $this->source . $this->param_three . $this->destination;
+        $output = shell_exec($command);
+        if (file_exists($path_file_result)) {
+        	$output = shell_exec('cp ' . $path_file_result . $path_download);
+
+        	$path_file_result = basename($path_file_result);
+			   
+			echo json_encode(array('status' => 'ok', 'msg' => 'downloading...', 'link' => $path_file_result));
+			 
+			die();
+		}
     }
 
     public function generate_timestamp() {
@@ -67,23 +92,15 @@ class MiddleClass {
     }
 
     public function uploadFile() {
-        $target_dir = "/home/soporteb/sac/";
-        $fileName = basename($_FILES["dataType"]["name"]);
+        $target_dir = $this->baseFolder . $this->baseFolderFile;
+        $fileName = basename($_FILES["file"]["name"]);
 		$target_file = $target_dir . $fileName;
 		$uploadOk = 1;
-		$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
-		if(isset($_POST["submit"])) {
-		  $check = getimagesize($_FILES["dataType"]["tmp_name"]);
-		  if($check !== false) {
-		    echo "File is an image - " . $check["mime"] . ".";
-		    $uploadOk = 1;
-		  } else {
-		    echo "File is not an image.";
-		    $uploadOk = 0;
-		  }
-		}
+		//$imageFileType = strtolower(pathinfo($target_file,PATHINFO_EXTENSION));
+		move_uploaded_file($_FILES['file']['tmp_name'], $target_file);
 		return $fileName;
     }
 }
 
 $class = new MiddleClass();
+$class->run();

@@ -17,6 +17,7 @@ export class FileUploadComponent implements OnInit {
     isHTML5: true
   });
   title: string = 'File Upload';
+  downloadLink = '';
   constructor(private fb: FormBuilder, private http: HttpClient ) { }
 
   uploadSubmit(){
@@ -28,19 +29,22 @@ export class FileUploadComponent implements OnInit {
           }
         }
         for (var j = 0; j < this.uploader.queue.length; j++) {
-          let data = new FormData();
+          let dataForm = new FormData();
           let fileItem = this.uploader.queue[j]._file;
           console.log(fileItem.name);
-          data.append('file', fileItem);
-          data.append('fileSeq', 'seq'+j);
-          data.append( 'dataType', this.uploadForm.controls.type.value);
-          this.uploadFile(data).subscribe(data => alert(data.message));
+          dataForm.append('file', fileItem);
+          dataForm.append('fileSeq', 'seq'+j);
+          dataForm.append( 'dataType', this.uploadForm.controls.type.value);
+          dataForm.append( 'source', this.uploadForm.controls.source.value);
+          dataForm.append( 'destination', this.uploadForm.controls.destination.value);
+          console.log(dataForm);
+          this.uploadFile(dataForm).subscribe(data => window.location.href = 'https://sac.rebisconsulting.com/tools/upload/uploads/' + data.link);
         }
         this.uploader.clearQueue();
   }
 
   uploadFile(data: FormData): Observable<any> {
-    //debugger
+    // debugger
     return this.http.post<any>('https://sac.rebisconsulting.com/tools/upload/upload.php', data);
   }
 
@@ -48,8 +52,9 @@ export class FileUploadComponent implements OnInit {
     this.uploadForm = this.fb.group({
       document: [null, null],
       type: 'File',
-      source:  [null, Validators.compose([Validators.required])],
-      destination:  [null, Validators.compose([Validators.required])]
+      source:  ['C9xht1myjk1olookllp4bla6f4', Validators.compose([Validators.required])],
+      destination:  ['C3QINITSUXFV5W3VLELZBI1OG', Validators.compose([Validators.required])],
+      terms:  [false, Validators.compose([Validators.required])]
     });
   }
 

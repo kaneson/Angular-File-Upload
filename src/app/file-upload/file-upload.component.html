@@ -8,63 +8,63 @@
 <h2 align="center"  style="color:#069">Title post blog {{ title }}</h2>
 <section>
 	<div align="center">
-				<mat-card>
-							<form [formGroup]="uploadForm" (ngSubmit)="uploadSubmit()">
-								<mat-card-content>
-									<mat-form-field class="form-field" *ngIf="false">
-										<mat-label>Select Document Type</mat-label>
-										<mat-select formControlName="type" required>
-											<mat-option value="File">File</mat-option>
-										</mat-select>
-									</mat-form-field>
-									<br><br>
-									<input formControlName="source" required placeholder="ID model source"/>
-									<br/>
-									<br/>
-									<input formControlName="destination" required placeholder="ID model destination"/>
-									<br/>
-									<br/>
-									<input formControlName="document" type="file" ng2FileSelect accept=".png,.pdf,*.*" [uploader]="uploader" multiple/><br/>
-									<br>
-									
-									<div class="drop-zone">
-									<div ng2FileDrop [uploader]="uploader" class="drop-zone">
-										 Drag and drop files to upload
-									</div>
-									</div>
+		<mat-card>
+			<form [formGroup]="uploadForm" (ngSubmit)="uploadSubmit()">
+				<mat-card-content>
+					<mat-form-field class="form-field" *ngIf="false">
+						<mat-label>Select Document Type</mat-label>
+						<mat-select formControlName="type" required>
+							<mat-option value="File">File</mat-option>
+						</mat-select>
+					</mat-form-field>
+					<br><br>
+					<input formControlName="source" required placeholder="ID model source"/>
+					<br/>
+					<br/>
+					<input formControlName="destination" required placeholder="ID model destination"/>
+					<br/>
+					<br/>
+					<input formControlName="document" type="file" ng2FileSelect accept=".tgz" [uploader]="uploader" multiple/><br/>
+					<br>
 
-									<br>
-									<table>
-										<thead>
-											<tr>
-												<th>File Information</th>&nbsp;&nbsp;
-												<th>Remove</th>
-											</tr>
-										</thead>
-										<br>
-										<tbody>
-										<tr *ngFor="let item of uploader.queue">
-											<td align="center">
-												{{ item.file.name}}({{item.file.size/1000000}} MB)
-											</td>&nbsp;&nbsp;
-											<td align="center">
-												<mat-icon (click)="item.remove()">delete</mat-icon>
-											</td>
-										</tr>
-										</tbody>
-									</table>
-									<br>
-									<label>
-										<a href="#">Terms and Privacy</a>
-									</label>
-									<input type="checkbox"/>
-									<br>
-									<br>
-									<br>
-									<button mat-raised-button color="accent" [disabled]="!uploadForm.valid" type="submit">Upload Data</button>
-								</mat-card-content>
-							</form>
-				</mat-card>
+					<div class="drop-zone">
+						<div ng2FileDrop [uploader]="uploader" class="drop-zone">
+							Drag and drop files to upload
+						</div>
+					</div>
+
+					<br>
+					<table>
+						<thead>
+							<tr>
+								<th>File Information</th>&nbsp;&nbsp;
+								<th>Remove</th>
+							</tr>
+						</thead>
+						<br>
+						<tbody>
+							<tr *ngFor="let item of uploader.queue">
+								<td align="center">
+									{{ item.file.name}}({{item.file.size/1000000}} MB)
+								</td>&nbsp;&nbsp;
+								<td align="center">
+									<mat-icon (click)="item.remove()">delete</mat-icon>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<br>
+					<label>
+						<a href="#">Terms and Privacy</a>
+					</label>
+					<input formControlName="terms" required type="checkbox"/>
+					<br>
+					<br>
+					<br>
+					<button mat-raised-button color="accent" [disabled]="!uploadForm.valid" type="submit">Upload Data</button>
+				</mat-card-content>
+			</form>
+		</mat-card>
 	</div>
 	<div align="center">
 		<p>Created by Rebis</p>
