@@ -9,13 +9,16 @@ import {FileDropDirective, FileSelectDirective} from "ng2-file-upload";
 import {HttpClientModule} from "@angular/common/http";
 import {CustomMaterialModule} from "./file-upload/material.module";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HomepageComponent } from './homepage/homepage.component';
+// import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     FileUploadComponent,
     FileSelectDirective,
-    FileDropDirective
+    FileDropDirective,
+    HomepageComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +28,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     CustomMaterialModule,
     RouterModule.forRoot([
-      {path: '', component: FileUploadComponent}
+      {path: '', component: FileUploadComponent},
+			{path: 'tools', component: FileUploadComponent},
+			{path: 'home', component: HomepageComponent}
     ]/*, {useHash: false}*/),
     BrowserAnimationsModule
   ],

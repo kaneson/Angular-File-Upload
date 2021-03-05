@@ -40,14 +40,16 @@ export class FileUploadComponent implements OnInit {
   }
 
   uploadFile(data: FormData): Observable<any> {
-    debugger
-    return this.http.post<any>('http://localhost:8080/upload', data);
+    //debugger
+    return this.http.post<any>('https://sac.rebisconsulting.com/tools/upload/upload.php', data);
   }
 
   ngOnInit() {
     this.uploadForm = this.fb.group({
       document: [null, null],
-      type:  [null, Validators.compose([Validators.required])]
+      type: 'File',
+      source:  [null, Validators.compose([Validators.required])],
+      destination:  [null, Validators.compose([Validators.required])]
     });
   }
 
